@@ -94,7 +94,7 @@ public class ExistingSubmission extends Fragment {
 			/* map is already there, just return view as it is */
 		}
 
-		return view; 
+		return view;
 
 	}
 
