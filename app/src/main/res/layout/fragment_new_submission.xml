@@ -1,0 +1,311 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.awisconsinbestiary.android.NewSubmission$PlaceholderFragment"
+     >
+	
+    <CheckBox
+        android:id="@+id/TOSCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="I have read and agree to the TOS" />
+
+
+	<ScrollView
+    	android:layout_width="match_parent"
+    	android:id="@+id/container"
+    	android:layout_below="@+id/TOSCheck"
+   		android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        
+    <LinearLayout
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/photoVideoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="callVideoCaptureIntent"
+            android:layout_weight=".3"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="2dp"
+            android:text="Add Photo" />
+	        
+	 </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/capturedPicture"
+            android:layout_width="match_parent"
+            android:layout_height="127dp"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+        <Button
+            android:id="@+id/addAudio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            
+            android:layout_margin="4dp"
+            android:text="Add Audio" />
+
+        <TextView
+            android:id="@+id/audioStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            android:text="Not Recorded" />
+
+        <EditText
+            android:id="@+id/firstNameTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_margin="4dp"
+            android:hint="First Name" />
+
+        <EditText
+            android:id="@+id/lastNameTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="10"
+            android:hint="Last Name" />
+
+        <EditText
+            android:id="@+id/emailTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="Email" />
+        
+        <TextView
+            android:id="@+id/affiliation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            android:text="Affiliation" />
+        
+        <Spinner
+            android:id="@+id/affiliationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/affiliation_array"
+            android:layout_margin="4dp"
+            android:prompt="@string/affiliation_prompt" />
+
+        <Spinner
+            android:id="@+id/groupSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/group_array"
+            android:layout_margin="4dp"
+            android:prompt="@string/group_prompt" />
+
+
+        
+
+          <EditText
+            android:id="@+id/commonNameTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_margin="4dp"
+            android:hint="Common Name" />
+
+          <EditText
+              android:id="@+id/speciesTextField"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="Species"
+              android:layout_margin="4dp"
+              android:ems="10" >
+
+          </EditText>
+
+          <EditText
+              android:id="@+id/amountTextField"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="4dp"
+              android:ems="10"
+              android:hint="Number of animal seen"
+              android:inputType="numberSigned" />
+
+          <EditText
+              android:id="@+id/behavorialDescriptionTextField"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:ems="10"
+              android:hint="Behavorial Description"
+              android:layout_margin="4dp"
+              android:inputType="textMultiLine" />
+          
+          
+           <Spinner 
+               android:id="@+id/countySpinner"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:entries="@array/county_array"
+               android:layout_margin="4dp"
+               android:prompt="@string/county_prompt" />
+
+        <Spinner
+            android:id="@+id/observationTechniqueSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:entries="@array/observational_array"
+            android:prompt="@string/observational_prompt" />
+
+        <EditText
+            android:id="@+id/observationTechniqueOtherTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Observational Technique (Other)"
+            android:layout_margin="4dp"
+            android:inputType="textMultiLine" />
+        
+        <EditText
+            android:id="@+id/ecosystemTypeTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Ecosystem Type"
+            android:layout_margin="4dp"
+            android:inputType="textMultiLine" />
+        
+        <EditText
+            android:id="@+id/additionalInformationTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Additional Information"
+            android:layout_margin="4dp"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/collectionLocationManuallyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:text="Collect Location Manually" />
+
+        <EditText
+            android:id="@+id/latitudeTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Latitude"
+            android:layout_margin="4dp"
+            android:inputType="numberDecimal" />
+        
+        <EditText
+            android:id="@+id/longitudeTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Longitude"
+            android:layout_margin="4dp"
+            android:inputType="numberDecimal" />
+        
+        <EditText
+            android:id="@+id/altitudeTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Altitude"
+            android:layout_margin="4dp"
+            android:inputType="numberDecimal" />
+        
+       <TextView
+            android:id="@+id/privatyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            android:text="I want my location to be" />
+       
+       <Spinner
+            android:id="@+id/privacySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/privacy_array"
+            android:prompt="@string/privacy_prompt"
+            android:layout_margin="4dp"
+             />
+       
+       <Button
+            android:id="@+id/weatherDatabutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:text="Weather Data Collected" />
+       
+       <Button
+            android:id="@+id/discardButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_margin="4dp"
+            android:text="Discard" />
+       
+       <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_margin="4dp"
+            android:drawablePadding="2dip"
+            android:text="Save Changes" />
+       
+       <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:textColor="@android:color/white"
+            android:layout_margin="4dp"
+            android:text="Submit" />
+       
+       
+
+    </LinearLayout>
+    
+
+</ScrollView>
+
+	
+</RelativeLayout>
