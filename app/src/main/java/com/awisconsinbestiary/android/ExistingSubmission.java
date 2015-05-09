@@ -20,7 +20,7 @@ import android.widget.ListView;
 
 public class ExistingSubmission extends Fragment {
 
-	private static View view;
+	private static View view; 
 
 	//Helper class for interacting with the DB
 	DatabaseHelper db;
