@@ -140,5 +140,6 @@
     <string name="title_activity_vew_video">Vew Video</string>
     <string name="title_activity_audio_recording">AudioRecording</string>
     <string name="title_activity_view_weather">ViewWeather</string>
+    <string name="title_activity_view_terms">ViewTerms</string>
 
 </resources>

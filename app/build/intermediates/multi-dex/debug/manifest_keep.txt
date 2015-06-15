@@ -8,6 +8,7 @@
 -keep class com.awisconsinbestiary.android.ViewVideo { <init>(); }
 -keep class com.awisconsinbestiary.android.AudioRecording { <init>(); }
 -keep class com.awisconsinbestiary.android.ViewWeather { <init>(); }
+-keep class com.awisconsinbestiary.android.ViewTerms { <init>(); }
 -keep public class * extends android.app.backup.BackupAgent {
     <init>();
 }

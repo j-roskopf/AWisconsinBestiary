@@ -6,6 +6,9 @@ import java.util.HashMap;
 import database.DatabaseHelper;
 import database.Entry;
 import adapter.Adapter;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +20,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ExistingSubmission extends Fragment {
 
-	private static View view; 
+	private static View view;
 
 	//Helper class for interacting with the DB
 	DatabaseHelper db;
@@ -114,8 +118,7 @@ public class ExistingSubmission extends Fragment {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 	    super.setUserVisibleHint(isVisibleToUser);
-
-	    if (isVisibleToUser)
+	    if (isVisibleToUser )
 	    {
 	    	allEntresFromDatabase.clear();
 	    	entries.clear();
@@ -198,13 +201,47 @@ public class ExistingSubmission extends Fragment {
 		// Click event for single list row
 		list.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				NewSubmission.comingFromExistingSubmission = true;
-				NewSubmission.e = allEntresFromDatabase.get(position);
-				ab.setSelectedNavigationItem(0);
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view,
+								int position, long id) {
+			NewSubmission.comingFromExistingSubmission = true;
+			NewSubmission.e = allEntresFromDatabase.get(position);
+			ab.setSelectedNavigationItem(0);
 
+		}
+	});
+
+		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+				new AlertDialog.Builder(getActivity())
+						.setTitle("Confirm delete")
+						.setMessage(
+								"This operation cannot be undone")
+						.setCancelable(false)
+						.setPositiveButton("Yes",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+														int id) {
+										Entry toDelete = allEntresFromDatabase.get(position);
+										NewSubmission.comingFromExistingSubmission = false;
+										allEntresFromDatabase.remove(position);
+										entries.remove(position);
+										db.removeEntry(toDelete);
+										adapter.notifyDataSetChanged();
+
+									}
+								})
+						.setNegativeButton("No",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+														int id) {
+										// if this button is clicked, just close
+										// the dialog box and do nothing
+										dialog.cancel();
+									}
+								}).show();
+				return true;
 			}
 		});
 	}

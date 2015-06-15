@@ -35,6 +35,7 @@ import com.androidquery.callback.AjaxStatus;
 import database.DatabaseHelper;
 import database.Entry;
 
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -60,6 +61,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -94,6 +97,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 	// TOS checkbox
 	private CheckBox cb;
+	private TextView tosText;
 	private ScrollView sv;
 	private Spinner privacySpinner;
 	private Spinner observationalSpinner;
@@ -110,8 +114,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 	private Button submitButton;
 	private Button manualLocationButton;
 	private TextView audioStatus;
-	private EditText firstName;
-	private EditText lastName;
+/*	private EditText firstName;
+	private EditText lastName;*/
 	private EditText email;
 	private EditText commonName;
 	private EditText species;
@@ -183,6 +187,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		// This if statement and try/catch prevent the map fragment from being
 		// inflated twice.
 		if (view != null) {
@@ -205,11 +210,12 @@ public class NewSubmission extends Fragment implements LocationListener {
 		super.setUserVisibleHint(isVisibleToUser);
 
 		if (isVisibleToUser && comingFromExistingSubmission) {
-
+			Log.d("D","123456789 setuservisiblehint");
 			// set the check box
 
-			cb.setChecked(isVisibleToUser);
-			sv.setVisibility(View.INVISIBLE);
+			cb.setChecked(true);
+			tosText.setVisibility(View.GONE);
+			sv.setVisibility(View.VISIBLE);
 			sv.fullScroll(ScrollView.FOCUS_UP);
 
 			// Depending on the orientation of the phone when the image was
@@ -262,8 +268,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 			// No need to set anything with the audio
 
-			firstName.setText(e.getFirstName());
-			lastName.setText(e.getLastName());
+/*			firstName.setText(e.getFirstName());
+			lastName.setText(e.getLastName());*/
 			email.setText(e.getEmail());
 
 			// set affiliation spinner
@@ -360,10 +366,10 @@ public class NewSubmission extends Fragment implements LocationListener {
 				R.id.longitudeTextField);
 		latitudeEditText = (EditText) getActivity().findViewById(
 				R.id.latitudeTextField);
-		firstName = (EditText) getActivity().findViewById(
+/*		firstName = (EditText) getActivity().findViewById(
 				R.id.firstNameTextField);
 		lastName = (EditText) getActivity()
-				.findViewById(R.id.lastNameTextField);
+				.findViewById(R.id.lastNameTextField);*/
 		email = (EditText) getActivity().findViewById(R.id.emailTextField);
 		commonName = (EditText) getActivity().findViewById(
 				R.id.commonNameTextField);
@@ -381,16 +387,19 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 		// Set first/last/email if the user has already entered in an entry
 		prefs = getActivity().getSharedPreferences(
-				"com.example.uwoshkoshbestiary", Context.MODE_PRIVATE);
+				"com.example.awisconsinbestiary", Context.MODE_PRIVATE);
 
-		firstName.setText(prefs.getString("firstName", ""));
-		lastName.setText(prefs.getString("lastName", ""));
+/*		firstName.setText(prefs.getString("firstName", ""));
+		lastName.setText(prefs.getString("lastName", ""));*/
 		email.setText(prefs.getString("email", ""));
 
 		// Save location listener to fragment so you can stop updates later
 		ll = this;
+		if(prefs.getString("colllectLocation","yes").equals("yes")){
+			collectLocation();
+			prefs.edit().putString("collectLocation","no").apply();
+		}
 
-		collectLocation();
 
 		// Set scrollview to be at the top
 		sv = (ScrollView) getActivity().findViewById(R.id.container);
@@ -405,12 +414,26 @@ public class NewSubmission extends Fragment implements LocationListener {
 				if (((CheckBox) v).isChecked()) {
 					sv.fullScroll(ScrollView.FOCUS_UP);
 					sv.setVisibility(View.VISIBLE);
+					tosText.setVisibility(View.GONE);
 				} else {
 					sv.setVisibility(View.INVISIBLE);
+					tosText.setVisibility(View.VISIBLE);
 
 				}
 			}
 		});
+
+		tosText = (TextView)getView().findViewById(R.id.TOSText);
+/*		tosText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://104.131.21.214/awb_tos.php"));
+				startActivity(browserIntent);
+			}
+		});*/
+		tosText.setText(Html.fromHtml("I have read and agree to the <a href=\"http://awisconsinbestiary.org/terms-of-use\">Terms of Service</a> and I verify that I am at least 13 years of age. NOTE: Please have a parent or guardian contact <a href=\"mailto:awisconsinbestiary@gmail.com\">awisconsinbestiary@gmail.com</a> to set up parental permission if you are under 13 years of age. If you do not check this box you are declining to submit to A Wisconsin Bestiary, Inc."));
+		tosText.setClickable(true);
+		tosText.setMovementMethod(LinkMovementMethod.getInstance());
 
 		// Button to collect location manually if user has location turned off
 		// on startup of app
@@ -706,8 +729,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 				// Save preferences
 				Editor editor = prefs.edit();
-				editor.putString("firstName", firstName.getText().toString());
-				editor.putString("lastName", lastName.getText().toString());
+/*				editor.putString("firstName", firstName.getText().toString());
+				editor.putString("lastName", lastName.getText().toString());*/
 				editor.putString("email", email.getText().toString());
 				editor.commit();
 
@@ -716,8 +739,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 					comingFromExistingSubmission = false;
 
 					// Store all of the information
-					e.setFirstName(firstName.getText().toString());
-					e.setLastName(lastName.getText().toString());
+/*					e.setFirstName(firstName.getText().toString());
+					e.setLastName(lastName.getText().toString());*/
 					e.setEmail(email.getText().toString());
 					e.setAffiliation(affiliationSpinner.getSelectedItem()
 							.toString());
@@ -791,13 +814,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 				storeInformationInFiledsToEntryObject();
 				Map<String, Object> params = new HashMap<String, Object>();
 
-				if (e.getFirstName().equals("")) {
-					Toast.makeText(c, "Please enter a first name",
-							Toast.LENGTH_SHORT).show();
-				} else if (e.getLastName().equals("")) {
-					Toast.makeText(c, "Please enter a last name",
-							Toast.LENGTH_SHORT).show();
-				} else if (e.getEmail().equals("")) {
+				 if (e.getEmail().equals("")) {
 					Toast.makeText(c, "Please enter an email",
 							Toast.LENGTH_SHORT).show();
 				} else if (e.getGroup().equals("Choose a group/phyla")) {
@@ -835,11 +852,12 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 
 					builder.addTextBody("replyto", e.getEmail(),ContentType.MULTIPART_FORM_DATA);
-					builder.addTextBody("first-name", e.getFirstName(),ContentType.MULTIPART_FORM_DATA);
-					builder.addTextBody("last-name", e.getLastName(),ContentType.MULTIPART_FORM_DATA);
+					builder.addTextBody("first-name", " ",ContentType.MULTIPART_FORM_DATA);
+					builder.addTextBody("last-name", " ",ContentType.MULTIPART_FORM_DATA);
 					builder.addTextBody("topic", "Bestiary Submission",ContentType.MULTIPART_FORM_DATA);
 					builder.addTextBody("school-affiliation", e.getAffiliation(),ContentType.MULTIPART_FORM_DATA);
 					builder.addTextBody("animal", e.getGroup(),ContentType.MULTIPART_FORM_DATA);
+					 Log.d("D","1123546879879 appending common name = " + e.getCommonName());
 					builder.addTextBody("common-name", e.getCommonName(),ContentType.MULTIPART_FORM_DATA);
 					builder.addTextBody("species", e.getSpecies(),ContentType.MULTIPART_FORM_DATA);
 					builder.addTextBody("how-many-of-this-animal-did-you-see",
@@ -1152,6 +1170,16 @@ public class NewSubmission extends Fragment implements LocationListener {
 		imageFileUri = null;
 		videoFileUri = null;
 		
+
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+
+		super.onConfigurationChanged(newConfig);
+
+		Log.d("D","123546879 on config");
+
 
 	}
 	
@@ -1530,6 +1558,12 @@ public class NewSubmission extends Fragment implements LocationListener {
 	public void onDestroy() {
 		super.onDestroy();
 
+		Log.d("D", "123546879 on destory");
+
+
+		prefs.edit().putString("collectLocation","yes").apply();
+
+
 		// If the user isn't going to save the entry, delete the recorded media
 		// as to not take up that much space
 		if (oldVideoFileUri != null) {
@@ -1854,8 +1888,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 		// being set to new entry
 		audioStatus.setText("Not Recorded");
 
-		firstName.setText("");
-		lastName.setText("");
+/*		firstName.setText("");
+		lastName.setText("");*/
 		email.setText("");
 
 		// set the default value
@@ -1892,8 +1926,8 @@ public class NewSubmission extends Fragment implements LocationListener {
 	private void storeInformationInFiledsToEntryObject() {
 
 		// Store all of the information
-		e.setFirstName(firstName.getText().toString());
-		e.setLastName(lastName.getText().toString());
+		e.setFirstName(" ");
+		e.setLastName(" ");
 		e.setEmail(email.getText().toString());
 		e.setAffiliation(affiliationSpinner.getSelectedItem().toString());
 		e.setGroup(groupSpinner.getSelectedItem().toString());

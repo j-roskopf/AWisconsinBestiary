@@ -40,6 +40,10 @@
     <init>();
 }
 
+-keep class com.awisconsinbestiary.android.ViewTerms {
+    <init>();
+}
+
 -keep public class * extends android.app.backup.BackupAgent {
     <init>();
 }

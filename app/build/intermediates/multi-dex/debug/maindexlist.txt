@@ -81,6 +81,7 @@ database/Entry.class
 android/support/v7/internal/view/menu/MenuItemImpl.class
 org/apache/http/params/HttpParamConfig.class
 android/support/v4/app/NoSaveStateFrameLayout.class
+com/awisconsinbestiary/android/ViewTerms.class
 com/awisconsinbestiary/android/NewSubmission$10.class
 com/awisconsinbestiary/android/MainActivity$1.class
 adapter/Adapter.class
@@ -111,6 +112,7 @@ android/support/v4/util/SimpleArrayMap.class
 com/awisconsinbestiary/android/NewSubmission$9.class
 com/awisconsinbestiary/android/NewSubmission$7.class
 org/apache/http/auth/AuthStateHC4.class
+com/awisconsinbestiary/android/ExistingSubmission$2.class
 android/support/v4/app/Fragment$InstantiationException.class
 android/support/v7/view/ActionMode.class
 android/support/v4/app/Fragment.class
