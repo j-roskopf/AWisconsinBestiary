@@ -35,6 +35,7 @@ import com.androidquery.callback.AjaxStatus;
 import database.DatabaseHelper;
 import database.Entry;
 
+import android.content.ContentValues;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
@@ -329,6 +330,14 @@ public class NewSubmission extends Fragment implements LocationListener {
 
 	}
 
+	public static void addImageToGallery(final String filePath, final Context context) {
+		ContentValues values = new ContentValues();
+		values.put(MediaStore.Images.Media.DATA,filePath);
+		values.put(MediaStore.Images.Media.MIME_TYPE,"image/jpeg");
+		context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+	}
+
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -529,7 +538,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 			public void onClick(View arg0) {
 				if (hasCamera()) {
 					
-					String timestamp = new SimpleDateFormat(
+					/*String timestamp = new SimpleDateFormat(
 							"yyyy-MM-dd-HH-mm-ss")
 							.format(Calendar.getInstance()
 									.getTime());
@@ -556,9 +565,9 @@ public class NewSubmission extends Fragment implements LocationListener {
 							MediaStore.EXTRA_OUTPUT,
 							imageFileUri);
 					startActivityForResult(intent,
-							CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+							CAMERA_CAPTURE_IMAGE_REQUEST_CODE);*/
 					
-/*					AlertDialog.Builder builder = new AlertDialog.Builder(
+					/*AlertDialog.Builder builder = new AlertDialog.Builder(
 							getActivity());
 					builder.setTitle("Choose an option");
 					builder.setItems(
@@ -640,7 +649,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 										// have to check and do it both ways
 										if (Build.VERSION.SDK_INT < 19) {
 											intent = new Intent();
-											intent.setType("image/*");
+											intent.setType("image*//*");
 											intent.setAction(Intent.ACTION_GET_CONTENT);
 											startActivityForResult(intent,
 													GALLERY_CHOSEN_IMAGE);
@@ -648,7 +657,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 											intent = new Intent(
 													Intent.ACTION_OPEN_DOCUMENT);
 											intent.addCategory(Intent.CATEGORY_OPENABLE);
-											intent.setType("image/*");
+											intent.setType("image*//*");
 											startActivityForResult(intent,
 													GALLERY_KITKAT_INTENT_CALLED_IMAGE);
 										}
@@ -661,7 +670,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 										// have to check and do it both ways
 										if (Build.VERSION.SDK_INT < 19) {
 											intent = new Intent();
-											intent.setType("video/*");
+											intent.setType("video*//*");
 											intent.setAction(Intent.ACTION_GET_CONTENT);
 											startActivityForResult(intent,
 													GALLERY_CHOSEN_VIDEO);
@@ -669,7 +678,7 @@ public class NewSubmission extends Fragment implements LocationListener {
 											intent = new Intent(
 													Intent.ACTION_OPEN_DOCUMENT);
 											intent.addCategory(Intent.CATEGORY_OPENABLE);
-											intent.setType("video/*");
+											intent.setType("video*//*");
 											startActivityForResult(intent,
 													GALLERY_KITKAT_INTENT_CALLED_VIDEO);
 
@@ -682,6 +691,77 @@ public class NewSubmission extends Fragment implements LocationListener {
 								}
 							});
 					builder.create().show();*/
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
+					builder.setTitle("Choose an option");
+					builder.setItems(
+							new CharSequence[] { "New Picture",
+									"Exisitng Picture" },
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+													int which) {
+									// The 'which' argument contains the index
+									// position
+									// of the selected item
+									switch (which) {
+										case 0:
+											String timestamp = new SimpleDateFormat(
+													"yyyy-MM-dd-HH-mm-ss")
+													.format(Calendar.getInstance()
+															.getTime());
+											e.setUsingExistingPhotoOrVideo(true);
+											e.setPhotoTime(timestamp);
+											File filepath = Environment
+													.getExternalStorageDirectory();
+											File dir = new File(filepath
+													.getAbsolutePath()
+													+ "/AWisconsinBestiary/");
+
+											dir.mkdirs();
+											File mediaFile = new File(Environment
+													.getExternalStorageDirectory()
+													.getAbsolutePath()
+													+ "/AWisconsinBestiary/Picture_"
+													+ timestamp + ".jpg");
+											Intent intent = new Intent(
+													MediaStore.ACTION_IMAGE_CAPTURE);
+											// Store the old Uri so it can be
+											// deleted
+											oldImageFileUri = imageFileUri;
+											imageFileUri = Uri.fromFile(mediaFile);
+											intent.putExtra(
+													MediaStore.EXTRA_OUTPUT,
+													imageFileUri);
+											startActivityForResult(intent,
+													CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+											break;
+										case 1:
+											// Kitkat changed the way picking
+											// from the gallery was done. So we
+											// have to check and do it both ways
+											if (Build.VERSION.SDK_INT < 19) {
+												intent = new Intent();
+												intent.setType("image/*");
+												intent.setAction(Intent.ACTION_GET_CONTENT);
+												startActivityForResult(intent,
+														GALLERY_CHOSEN_IMAGE);
+											} else {
+												intent = new Intent(
+														Intent.ACTION_OPEN_DOCUMENT);
+												intent.addCategory(Intent.CATEGORY_OPENABLE);
+												intent.setType("image/*");
+												startActivityForResult(intent,
+														GALLERY_KITKAT_INTENT_CALLED_IMAGE);
+											}
+											e.setUsingExistingPhotoOrVideo(false);
+
+											break;
+
+									}
+								}
+							});
+					builder.create().show();
 
 				} else {
 					// No camera present!

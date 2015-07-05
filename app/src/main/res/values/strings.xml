@@ -17,7 +17,7 @@
     <string name="choose_format_title">Choose Audio Format</string>
     <string name="start_recording">Record</string>
     <string name="stop_recording">Stop</string>
-    <string name="audio_format">Format</string> 
+    <string name="audio_format">Format</string>
 
     <string-array name="county_array">
         <item>Choose a county</item>
